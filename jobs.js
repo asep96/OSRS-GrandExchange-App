@@ -54,10 +54,29 @@ async function refreshIntervalSnapshotsJob() {
     const data = body.data || {};
 
     for (const [idStr, row] of Object.entries(data)) {
-      const itemId = Number(idStr);
-      if (!Number.isFinite(itemId)) continue;
+      const item_id = Number(idStr);
+      if (!Number.isFinite(item_id)) continue;
 
-      const snapshot = snapshotsByItem.get(itemId) || { itemId };
+      const snapshot =
+        snapshotsByItem.get(item_id) ||
+        {
+          item_id,
+
+          avgHighPrice5m: null,
+          avgHighPriceVolume5m: null,
+          avgLowPrice5m: null,
+          avgLowPriceVolume5m: null,
+
+          avgHighPrice1h: null,
+          avgHighPriceVolume1h: null,
+          avgLowPrice1h: null,
+          avgLowPriceVolume1h: null,
+
+          avgHighPrice24h: null,
+          avgHighPriceVolume24h: null,
+          avgLowPrice24h: null,
+          avgLowPriceVolume24h: null,
+        };
 
       if (step === "5m") {
         snapshot.avgHighPrice5m       = row.avgHighPrice ?? null;
@@ -76,7 +95,7 @@ async function refreshIntervalSnapshotsJob() {
         snapshot.avgLowVolume24h      = row.lowPriceVolume ?? null;
       }
 
-      snapshotsByItem.set(itemId, snapshot);
+      snapshotsByItem.set(item_id, snapshot);
     }
   }
 
@@ -102,5 +121,6 @@ module.exports = {
     runAllRefreshJobs
 
 }
+
 
 
