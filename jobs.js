@@ -24,7 +24,7 @@ async function refreshLatestPricesJob() {
 
   // Turn the map { "4151": {avgHighPrice,...}, ... } into an array for the DB helper
   const rows = Object.entries(data).map(([idStr, row]) => ({
-    itemId: Number(idStr),
+    item_id: Number(idStr),
     high: row.avgHighPrice ?? null,
     low: row.avgLowPrice ?? null,
     highTime: null,
@@ -100,4 +100,5 @@ async function runAllRefreshJobs() {
 
 module.exports = {
     runAllRefreshJobs
+
 }
