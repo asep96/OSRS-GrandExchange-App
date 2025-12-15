@@ -27,8 +27,8 @@ async function refreshLatestPricesJob() {
     item_id: Number(idStr),
     high: row.avgHighPrice ?? null,
     low: row.avgLowPrice ?? null,
-    highTime: null,
-    lowTime: null,
+    high_time: null,
+    low_time: null,
   }));
 
   await saveLatestPricesBulk(rows);
@@ -102,3 +102,4 @@ module.exports = {
     runAllRefreshJobs
 
 }
+
