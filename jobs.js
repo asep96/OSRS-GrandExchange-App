@@ -1,4 +1,4 @@
-const { saveLatestPricesBulk, saveIntervalSnapshotsBulk } = require("./db/index.js");
+const { saveLatestPricesBulk, saveItemIntervalSnapshotsBulk } = require("./db/index.js");
 
 const WIKI_BASE = "https://prices.runescape.wiki/api/v1/osrs";
 
@@ -82,7 +82,7 @@ async function refreshIntervalSnapshotsJob() {
 
   const snapshotsArray = Array.from(snapshotsByItem.values());
 
-  await saveIntervalSnapshotsBulk(snapshotsArray);
+  await saveItemIntervalSnapshotsBulk(snapshotsArray);
 
   return { updatedCount: snapshotsArray.length };
 }
@@ -102,4 +102,5 @@ module.exports = {
     runAllRefreshJobs
 
 }
+
 
