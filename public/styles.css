@@ -1,0 +1,616 @@
+/* ---------- Base layout & theme ---------- */
+
+:root {
+  --bg: #050814;
+  --bg-elevated: #0b1220;
+  --border-subtle: #1b2435;
+  --text-main: #f5f7ff;
+  --text-muted: #8d9bb8;
+  --accent: #00c46a;       /* Robinhood-ish green */
+  --accent-soft: rgba(0, 196, 106, 0.12);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #050814; 
+  color: var(--text-main);
+}
+
+header {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border-subtle);
+  background: rgba(5, 8, 20, 0.95);
+  backdrop-filter: blur(12px);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.3rem;
+  letter-spacing: 0.04em;
+}
+
+/* main container */
+
+main {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  min-height: calc(100vh - 80px); /* 80px ~= header height; adjust */
+}
+
+/* Hide/show views */
+#home-view.hidden,
+#item-view.hidden {
+  display: none;
+}
+
+/* ---------- Home view basics ---------- */
+
+#home-view {
+  display: grid;
+  grid-template-columns: minmax(0, 2.2fr) minmax(260px, 1fr);
+  gap: 1.5rem;
+  align-items: stretch;      /* <-- key so the watchlist stretches */
+}
+
+/* left column stack: search on top, summary cards below */
+#home-main-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* summary cards row (you already have most of this) */
+#home-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+/* responsive collapse */
+@media (max-width: 900px) {
+  #home-view {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  #watchlist-section {
+    order: 2;
+  }
+}
+
+#search-section,
+#watchlist-section,
+#top-expensive-section,
+#top-item-spread-section,
+#top-alch-profit-section {
+  background: rgba(11, 18, 32, 0.9);
+  border-radius: 16px;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--border-subtle);
+}
+
+#search-section h2,
+#watchlist-section h2,
+#top-expensive-section h2,
+#top-item-spread-section h2,
+#top-alch-profit-section h2 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+}
+
+/* Search form */
+
+#search-form {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+#search-input {
+  flex: 1;
+  padding: 0.55rem 0.75rem;
+  border-radius: 10px;
+  border: 1px solid var(--border-subtle);
+  background: #050814;
+  color: var(--text-main);
+}
+
+#search-input::placeholder {
+  color: var(--text-muted);
+}
+
+#search-form button {
+  padding: 0.55rem 0.9rem;
+  border-radius: 10px;
+  border: none;
+  background: var(--accent);
+  color: #020309;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+#search-form button:hover {
+  filter: brightness(1.05);
+}
+
+/* home-summary card items*/
+
+#home-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+@media (max-width: 900px){
+  #home-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px){
+  #home-summary {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+#top-expensive-list ul,
+#top-item-spread-list ul,
+#top-alch-profit-list ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0.25rem 0 0;
+}
+
+#top-expensive-list li + li,
+#top-item-spread-list li + li,
+#top-alch-profit-list li + li {
+  margin-top: 0.25rem;
+}
+
+#top-expensive-list button,
+#top-item-spread-list button,
+#top-alch-profit-list button {
+  font-size: 0.9rem;
+}
+
+/* Search results list */
+
+#search-results ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0.5rem 0 0;
+}
+
+#search-results li + li {
+  margin-top: 0.35rem;
+}
+
+#search-results button,
+#watchlist-list button,
+#top-expensive-list button,
+#top-item-spread-list button,
+#top-alch-profit-list button {
+  width: 100%;
+  text-align: left;
+  padding: 0.45rem 0.6rem;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-main);
+  cursor: pointer;
+}
+
+#search-results button:hover,
+#watchlist-list button:hover,
+#top-expensive-list button:hover,
+#top-item-spread-list button:hover,
+#top-alch-profit-list button:hover {
+  background: rgba(255, 255, 255, 0.02);
+  border-color: var(--border-subtle);
+}
+
+/* Make the summary list buttons behave like "icon + text" rows */
+#top-expensive-list button,
+#top-item-spread-list button,
+#top-alch-profit-list button,
+#watchlist-list button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Keep the icon from squishing and give it a little space */
+#top-expensive-list button img,
+#top-item-spread-list button img,
+#top-alch-profit-list button img {
+  flex-shrink: 0;
+}
+
+/* Stack name + price vertically to the right of the icon */
+.item-row-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.item-row-name {
+  font-weight: 500;
+}
+
+.item-row-price {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+#search-results img,
+#watchlist-list img,
+#top-expensive-list img,
+#top-item-spread-list img,
+#top-alch-profit-list img {
+  width: 30px;
+  height: 30px;
+  image-rendering: pixelated;
+  margin-right: 0.4rem;
+  vertical-align: middle;
+  border-radius: 4px;
+}
+
+/* Watchlist */
+#watchlist-section {
+  background: rgba(11, 18, 32, 0.9);
+  border-radius: 16px;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--border-subtle);
+
+  /* remove max-height: 420px; */
+  height: 100%;              /* fill the whole grid row */
+  display: flex;
+  flex-direction: column;
+}
+
+#watchlist-section h2 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+}
+
+#watchlist-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+
+  flex: 1 1 auto;            /* take remaining height */
+  overflow-y: auto;          /* scroll when content exceeds height */
+  padding-right: 0.4rem;     /* space for scrollbar */
+}
+
+#watchlist-list li {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+/* ---------- Item view / item sheet ---------- */
+
+#item-view {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* back button */
+
+#back-to-home-btn,
+#add-watchlist-btn {
+  align-self: flex-start;
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-subtle);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+#back-to-home-btn:hover,
+#add-watchlist-btn:hover {
+  border-color: var(--accent-soft);
+  color: var(--text-main);
+}
+
+/* main card */
+
+.item-details-card {
+  background: rgba(11, 18, 32, 0.98);
+  border-radius: 18px;
+  padding: 1.5rem 1.75rem;
+  border: 1px solid var(--border-subtle);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.55);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* header */
+
+.item-header-main {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.item-header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.item-icon {
+  width: 56px;
+  height: 56px;
+  image-rendering: pixelated;
+  border-radius: 12px;
+  background: radial-gradient(circle at top, #1f2937, #050814);
+  padding: 6px;
+}
+
+.item-title-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.item-name {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.item-meta {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.item-id {
+  opacity: 0.9;
+}
+
+.item-members-badge {
+  padding: 0.1rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  border: 1px solid transparent;
+}
+
+.item-members-badge.members {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.item-members-badge.f2p {
+  background: rgba(139, 92, 246, 0.14);
+  border-color: rgba(139, 92, 246, 0.9);
+  color: #c4b5fd;
+}
+
+.item-updated {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.item-updated .label {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.7rem;
+  opacity: 0.8;
+}
+
+.item-updated .value {
+  margin-top: 0.15rem;
+}
+
+/* price section */
+
+.item-price-section {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.item-main-price {
+  display: flex;
+  flex-direction: column;
+}
+
+.price-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.price-value {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.item-secondary-prices {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.price-pill {
+  min-width: 110px;
+  padding: 0.45rem 0.7rem;
+  border-radius: 999px;
+  background: #050814;
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.pill-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.pill-value {
+  font-size: 0.9rem;
+  padding-left: 3px;
+}
+
+/* stats grid */
+
+.item-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.75rem;
+}
+
+.stat-card {
+  background: #050814;
+  border-radius: 12px;
+  padding: 0.75rem 0.85rem;
+  border: 1px solid var(--border-subtle);
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.stat-value {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.95rem;
+}
+
+/* warning section */
+
+.warning-message {
+  font-weight: 500;
+  color: #ff9999;
+}
+
+/* about section */
+
+.item-about h3 {
+  margin: 0 0 0.35rem;
+  font-size: 0.95rem;
+}
+
+.item-about p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+/* chart placeholder */
+
+.item-chart-section {
+  margin-top: 0.25rem;
+}
+
+.item-chart-section .section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.item-chart-section h3 {
+  margin: 0 0 0.4rem;
+  font-size: 0.95rem;
+}
+
+.section-tag {
+  font-size: 0.75rem;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+}
+
+/* Chart container for item view */
+#item-chart-container {
+  margin-top: 0.3rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-subtle);
+  background: #050814;
+  padding: 0.75rem;
+  height: 260px; /* gives the line chart some vertical room */
+}
+
+/* Placeholder state */
+#item-chart-container.item-chart-placeholder {
+  border-style: dashed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+
+.chart-intervals {
+  display: inline-flex;
+  gap: 0.35rem;
+  padding: 0.15rem;
+  border-radius: 999px;
+  background: #050814;
+  border: 1px solid var(--border-subtle);
+}
+
+.chart-intervals button {
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.chart-intervals button.active-interval {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+/* ---------- Responsive tweaks ---------- */
+
+@media (max-width: 768px) {
+
+  .item-header-main {
+    align-items: flex-start;
+  }
+
+  .item-updated {
+    align-items: flex-start;
+  }
+}

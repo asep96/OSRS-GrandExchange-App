@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>OSRS GE Dashboard</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <!-- Optional: simple helper class for toggling views -->
+  <style>
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>OSRS GE Dashboard</h1>
+  </header>
+
+  <main>
+    <!-- HOME VIEW: search + watchlist + dashboard widgets -->
+    <div id="home-view">
+      <!-- LEFT COLUMN: Search + summary cards -->
+      <div id="home-main-column">
+        <!-- Search -->
+        <section id="search-section">
+          <h2>Search</h2>
+          <form id="search-form">
+            <input
+              type="text"
+              id="search-input"
+              placeholder="Search for an item (e.g. Abyssal whip)"
+              autocomplete="off"
+            />
+            <button type="submit">Search</button>
+          </form>
+          <div id="search-results"></div>
+        </section>
+
+        <!-- Row 2: Summary Cards -->
+        <div id="home-summary">
+          <!-- Most expensive items -->
+          <section id="top-expensive-section">
+            <h2>Most expensive items</h2>
+            <div id="top-expensive-list"><!-- JS fills this --></div>
+          </section>
+
+          <!-- Highest Item Spread -->
+          <section id="top-item-spread-section">
+            <h2>Highest Item Bid-Ask Spread</h2>
+            <div id="top-item-spread-list"><!-- JS fills this --></div>
+          </section>
+
+            <!-- Highest Alch Profits -->
+            <section id="top-alch-profit-section">
+              <h2>Highest Item Alch Profits</h2>
+              <div id="top-alch-profit-list"><!-- JS fills this --></div>
+            </section>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: Watchlist -->
+        <section id="watchlist-section">
+          <h2>My Watchlist</h2>
+          <ul id="watchlist-list">
+            <li>No items in watchlist yet.</li>
+          </ul>
+        </section>
+    </div>
+
+  <!-- ITEM VIEW: focused item profile page -->
+  <div id="item-view" class="hidden">
+    <section id="button-section">
+      <button id="back-to-home-btn">Back to dashboard</button>
+      <button id="add-watchlist-btn">Add to watchlist</button>
+    </section>
+
+    <section id="details-section">
+      <h2>Item details</h2>
+      <div id="item-details">Select an item to see details.</div>
+      <div id="chart-container"></div>
+    </section>
+  </div>
+</main>
+
+  <!-- Your JS goes at the bottom so DOM exists before it runs -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script type="module" src="/js/main.js"></script>
+</body>
+</html>
